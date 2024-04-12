@@ -3,12 +3,9 @@
 
 import os
 import re
-import requests
 
 from .colors import colors as c
-from .version import __version__
-from .helpers import get_emails_from_file
-from .helpers import fetch_emails
+from security import safe_requests
 
 def fetch_urls(target):
     """
@@ -54,7 +51,7 @@ def worker_url(url):
     paramsUA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"}
     try:
         c.info_news("Worker fetching " + url)
-        r = requests.get(url, params = paramsUA, allow_redirects=False)
+        r = safe_requests.get(url, params = paramsUA, allow_redirects=False)
         c.info_news("Worker done fetch url")
         print(f"Status code: {r.status_code}")
     
