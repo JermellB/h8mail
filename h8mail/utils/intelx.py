@@ -143,7 +143,7 @@ class intelx:
 		except:
 			return False
 
-	def INTEL_SEARCH(self, term, maxresults=100, buckets=[], timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=[]):
+	def INTEL_SEARCH(self, term, maxresults=100, buckets=None, timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=None):
 		"""
 		Initialize an intelligent search and return the ID of the task/search for further processing.
 
@@ -225,6 +225,8 @@ class intelx:
 
 		Soft selectors (generic terms) are not supported!
 		"""
+		buckets = [] if buckets is None else buckets
+		terminate = [] if terminate is None else terminate
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
 		p = {
 			"term": term,
@@ -344,10 +346,12 @@ class intelx:
 		else:
 			return r.status_code
 	
-	def PHONEBOOK_SEARCH(self, term, maxresults=100, buckets=[], timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=[], target=0):
+	def PHONEBOOK_SEARCH(self, term, maxresults=100, buckets=None, timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=None, target=0):
 		"""
 		Initialize a phonebook search and return the ID of the task/search for further processing
 		"""
+		buckets = [] if buckets is None else buckets
+		terminate = [] if terminate is None else terminate
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
 		p = {
 			"term": term,
@@ -404,7 +408,7 @@ class intelx:
 		results = self.PHONEBOOK_SEARCH_RESULT(id, limit)
 		return results
 
-	def search(self, term, maxresults=100, buckets=[], timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=[]):
+	def search(self, term, maxresults=100, buckets=None, timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=None):
 		"""
 		Conduct a simple search based on a search term.
 		Other arguments have default values set, however they can be overridden to complete an advanced search.
@@ -488,6 +492,8 @@ class intelx:
 		Soft selectors (generic terms) are not supported!
 		
 		"""
+		buckets = [] if buckets is None else buckets
+		terminate = [] if terminate is None else terminate
 		results = []
 		done = False
 		search_id = self.INTEL_SEARCH(term, maxresults, buckets, timeout, datefrom, dateto, sort, media, terminate)
@@ -506,11 +512,13 @@ class intelx:
 				done = True
 		return {'records': results}
 
-	def phonebooksearch(self, term, maxresults=1000, buckets=[], timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=[], target=0):
+	def phonebooksearch(self, term, maxresults=1000, buckets=None, timeout=5, datefrom="", dateto="", sort=4, media=0, terminate=None, target=0):
 		"""
 		Conduct a phonebook search based on a search term.
 		Other arguments have default values set, however they can be overridden to complete an advanced search.
 		"""
+		buckets = [] if buckets is None else buckets
+		terminate = [] if terminate is None else terminate
 		results = []
 		done = False
 		search_id = self.PHONEBOOK_SEARCH(term, maxresults, buckets, timeout, datefrom, dateto, sort, media, terminate, target)
