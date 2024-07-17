@@ -4,6 +4,7 @@ import os
 import re
 import stat
 from string import printable
+from security import safe_command
 
 
 def breachcomp_check(targets, breachcomp_path):
@@ -16,7 +17,7 @@ def breachcomp_check(targets, breachcomp_path):
         os.chmod(query_bin, st.st_mode | stat.S_IEXEC)
         for t in targets:
             c.info_news(f"Looking up {t.target} in BreachCompilation")
-            procfd = subprocess.run([query_bin, t.target], stdout=subprocess.PIPE)
+            procfd = safe_command.run(subprocess.run, [query_bin, t.target], stdout=subprocess.PIPE)
             try:
                 output = procfd.stdout.decode("cp437")
             except Exception as e:
