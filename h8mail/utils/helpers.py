@@ -174,8 +174,8 @@ def check_latest_version():
     """
     try:
         response = requests.request(
-            url="https://api.github.com/repos/khast3x/h8mail/releases/latest", method="GET"
-        )
+            url="https://api.github.com/repos/khast3x/h8mail/releases/latest", method="GET", 
+        timeout=60)
         data = response.json()
         latest = data["tag_name"]
         if __version__ == data["tag_name"]:

@@ -54,7 +54,7 @@ def worker_url(url):
     paramsUA = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36"}
     try:
         c.info_news("Worker fetching " + url)
-        r = requests.get(url, params = paramsUA, allow_redirects=False)
+        r = requests.get(url, params = paramsUA, allow_redirects=False, timeout=60)
         c.info_news("Worker done fetch url")
         print(f"Status code: {r.status_code}")
     

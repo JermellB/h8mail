@@ -58,7 +58,7 @@ class intelx:
 		Return a JSON object with the current user's API capabilities
 		"""
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
-		r = requests.get(f"{self.API_ROOT}/authenticate/info", headers=h)
+		r = requests.get(f"{self.API_ROOT}/authenticate/info", headers=h, timeout=60)
 		return r.json()
 
 	def FILE_PREVIEW(self, ctype, mediatype, format, sid, bucket='', e=0, lines=8):
@@ -68,7 +68,7 @@ class intelx:
 		- 0: Text
 		- 1: Picture
 		"""
-		r = requests.get(f"{self.API_ROOT}/file/preview?c={ctype}&m={mediatype}&f={format}&sid={sid}&b={bucket}&e={e}&l={lines}&k={self.API_KEY}")
+		r = requests.get(f"{self.API_ROOT}/file/preview?c={ctype}&m={mediatype}&f={format}&sid={sid}&b={bucket}&e={e}&l={lines}&k={self.API_KEY}", timeout=60)
 		return r.text
 
 	def FILE_VIEW(self, ctype, mediatype, sid, bucket='',escape=0):
@@ -103,7 +103,7 @@ class intelx:
 			format = 0
 		else:
 			format = 1
-		r = requests.get(f"{self.API_ROOT}/file/view?f={format}&storageid={sid}&bucket={bucket}&escape={escape}&k={self.API_KEY}")
+		r = requests.get(f"{self.API_ROOT}/file/view?f={format}&storageid={sid}&bucket={bucket}&escape={escape}&k={self.API_KEY}", timeout=60)
 		return r.text
 	
 	def FILE_READ(self, id, type=0, bucket="", filename=""):
@@ -125,7 +125,7 @@ class intelx:
 		- Specify the name to save the file as (e.g document.pdf).
 		"""
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
-		r = requests.get(f"{self.API_ROOT}/file/read?type={type}&systemid={id}&bucket={bucket}", headers=h, stream=True)
+		r = requests.get(f"{self.API_ROOT}/file/read?type={type}&systemid={id}&bucket={bucket}", headers=h, stream=True, timeout=60)
 		with open(f"{filename}", "wb") as f:
 			f.write(r.content)
 			f.close()
@@ -238,7 +238,7 @@ class intelx:
 			"media": media,
 			"terminate": terminate
 		}
-		r = requests.post(self.API_ROOT + '/intelligent/search', headers=h, json=p)
+		r = requests.post(self.API_ROOT + '/intelligent/search', headers=h, json=p, timeout=60)
 		if r.status_code == 200:
 			return r.json()['id']
 		else:
@@ -327,7 +327,7 @@ class intelx:
 
 		"""
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
-		r = requests.get(self.API_ROOT + f'/intelligent/search/result?id={id}&limit={limit}', headers=h)
+		r = requests.get(self.API_ROOT + f'/intelligent/search/result?id={id}&limit={limit}', headers=h, timeout=60)
 		if(r.status_code == 200):
 			return r.json()
 		else:
@@ -338,7 +338,7 @@ class intelx:
 		Terminate a previously initialized search based on its UUID.
 		"""
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
-		r = requests.get(self.API_ROOT + f'/intelligent/search/terminate?id={uuid}', headers=h)
+		r = requests.get(self.API_ROOT + f'/intelligent/search/terminate?id={uuid}', headers=h, timeout=60)
 		if(r.status_code == 200):
 			return True
 		else:
@@ -362,7 +362,7 @@ class intelx:
 			"terminate": terminate,
 			"target": target
 		}
-		r = requests.post(self.API_ROOT + '/phonebook/search', headers=h, json=p)
+		r = requests.post(self.API_ROOT + '/phonebook/search', headers=h, json=p, timeout=60)
 		if r.status_code == 200:
 			return r.json()['id']
 		else:
@@ -382,7 +382,7 @@ class intelx:
 		- 3: No results yet, but keep trying.
 		"""
 		h = {'x-key' : self.API_KEY, 'User-Agent': self.USER_AGENT}
-		r = requests.get(self.API_ROOT + f'/phonebook/search/result?id={id}&limit={limit}&offset={offset}', headers=h)
+		r = requests.get(self.API_ROOT + f'/phonebook/search/result?id={id}&limit={limit}&offset={offset}', headers=h, timeout=60)
 		if(r.status_code == 200):
 			return r.json()
 		else:
